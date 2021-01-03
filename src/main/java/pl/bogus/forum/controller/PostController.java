@@ -8,6 +8,8 @@ import pl.bogus.forum.model.Post;
 import pl.bogus.forum.service.PostService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -16,13 +18,13 @@ public class PostController {
 
     @GetMapping("/posts")
     public List<Post> getPost() {
-       return  postService.getPosts();
+        return postService.getPosts();
 
     }
 
     @GetMapping("/posts/{id}")
     public Post getPostById(@PathVariable long id) {
-        throw new IllegalArgumentException("Not implemented yet");
+        return postService.getPostById(id).orElseThrow(NoSuchElementException::new);
     }
 
 }

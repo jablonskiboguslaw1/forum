@@ -2,8 +2,6 @@ package pl.bogus.forum.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
-
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
