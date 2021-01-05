@@ -27,4 +27,10 @@ public class PostController {
         return postService.getPostById(id).orElseThrow(NoSuchElementException::new);
     }
 
-}
+
+
+    @GetMapping("/postsAll")
+    public List<Post> getPostWithComments() {
+        return postService.getPostsWithComments();
+
+    }}
