@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class PostService {
 
+    public static final int PAGE_SIZE = 20;
     private final PostRepository postRepository;
 
 
@@ -20,8 +21,8 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<Post> getPostsWithComments(){
-        return postRepository.findAllPosts(PageRequest.of(0,5));
+    public List<Post> getPostsWithComments(int page){
+        return postRepository.findAllPosts(PageRequest.of(page, PAGE_SIZE));
     }
 
     public Optional<Post> getPostById(long id) {
