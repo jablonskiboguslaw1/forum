@@ -1,6 +1,7 @@
 package pl.bogus.forum.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +22,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/posts")
-    public List<Post> getPost() {
-        return postService.getPosts();
+    public List<Post> getPost(@RequestParam(required = false) Integer page , Sort.Direction sort) {
+        int pageNum = ((page != null) && (page >= 0)) ? page : 0;
+        Sort.Direction sortDirection = sort!=null ? sort: Sort.Direction.ASC;
+        return postService.getPosts(pageNum, sortDirection);
 
     }
 
@@ -33,9 +36,10 @@ public class PostController {
 
 
     @GetMapping("/postsAll")
-    public List<PostDto> getPostWithComments(@RequestParam(required = false) Integer page) {
+    public List<PostDto> getPostWithComments(@RequestParam(required = false) Integer page,Sort.Direction sort) {
         int pageNum = ((page != null) && (page >= 0)) ? page : 0;
-        return PostDtoMapper.mapToPostDtos(postService.getPostsWithComments(pageNum));
+        Sort.Direction sortDirection = sort!=null ? sort: Sort.Direction.ASC;
+        return PostDtoMapper.mapToPostDtos(postService.getPostsWithComments(pageNum, sortDirection));
 
     }
 
