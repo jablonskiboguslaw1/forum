@@ -9,8 +9,8 @@ import pl.bogus.forum.model.dto.PostDtoMapper;
 import pl.bogus.forum.service.PostService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
+
 
 @RequiredArgsConstructor
 @RestController
@@ -28,7 +28,7 @@ public class PostController {
 
     @GetMapping("/posts/{id}")
     public Post getPostById(@PathVariable long id) {
-        return postService.getPostById(id).orElseThrow(NoSuchElementException::new);
+        return postService.getPostById(id);
     }
 
 
