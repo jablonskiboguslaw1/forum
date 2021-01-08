@@ -1,0 +1,15 @@
+docker run --name mysqldb -p 3306:3306 -v /mysqldatadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+
+
+README>> to start db in docker before app
+
+Open 'Edit/Run Debug configurations'
+Edit Configurations
+> Before lunch
+> +
+> External Tool
+>+
+>
+name= "custom name"
+Program = docker
+Arguments = start mysqldb
