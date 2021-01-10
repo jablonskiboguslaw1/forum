@@ -15,5 +15,6 @@ UNIQUE KEY username_authority (username, authority)
 );
 
 -- changeset  bogu:6
-INSERT  INTO users(id,username, password, enabled) values (1,'bogu','$2a$10$20Yk/pqxxenncFbJoQoby.WPW9RhtWx3rvI5tnQmWFTDEqKmzPMsK',true);
-INSERT  INTO  authorities(username, authority) values ('bogu', 'USER');
+insert into users (id, username, password, enabled)
+values (1, 'test', '{bcrypt}$2a$10$upzXFsFUOClFRR69OMKF8eajGMRs0vhcSHqvNDKy9yfW45w7o9z6O', true);
+insert into authorities (username, authority) values ('test','USER');
