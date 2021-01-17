@@ -1,4 +1,4 @@
-package pl.bogus.forum;
+package pl.bogus.forum.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
