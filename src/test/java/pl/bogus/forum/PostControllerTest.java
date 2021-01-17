@@ -1,5 +1,6 @@
 package pl.bogus.forum;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,26 +8,52 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.transaction.annotation.Transactional;
+import pl.bogus.forum.model.Post;
+import pl.bogus.forum.reposiotry.PostRepository;
+
+import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser
 public class PostControllerTest {
-@Autowired
+    @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private PostRepository postRepository;
 
     @Test
+    @Transactional
     void shouldGetSinglePost() throws Exception {
 //given
+
+        Post newPost = new Post();
+        newPost.setTitle("TEST");
+        newPost.setContent("contentTest");
+        newPost.setCreated(LocalDateTime.now());
+        newPost.setTitle("TEST");
+        postRepository.save(newPost);
 //when
-        mockMvc.perform(MockMvcRequestBuilders.get("/posts/1"))
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/posts/" + newPost.getId()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.id", Matchers.is(1)));
+                .andReturn();
 
 //then
+        Post post = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
+        assertThat(post).isNotNull();
+        assertThat(post.getId()).isEqualTo(newPost.getId());
+        assertThat(post.getTitle()).isEqualTo("TEST");
+        assertThat(post.getContent()).isEqualTo("contentTest");
+
     }
 }
